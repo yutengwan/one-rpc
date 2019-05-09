@@ -1,9 +1,6 @@
-/**
- * Alipay.com Inc. Copyright (c) 2004-2019 All Rights Reserved.
- */
-package com.yuteng.rpc.netty;
+package com.xiaoqi.rpc.client;
 
-import com.yuteng.rpc.handler.ClientHandler;
+import com.xiaoqi.rpc.handler.RpcClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -15,10 +12,9 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
  *
- * @author wanyuteng
- * @version $Id: NettyClient.java, v 0.1 2019年05月03日 4:54 PM wanyuteng Exp $
+ * @version $Id: RpcClient.java, v 0.1 2019年05月03日 4:54 PM Exp $
  */
-public class NettyClient {
+public class RpcClient {
 
     public void connect(int port, String host) throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
@@ -30,7 +26,7 @@ public class NettyClient {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             // 初始化，将handler设置在channelPiple中
-                            ch.pipeline().addLast(new ClientHandler());
+                            ch.pipeline().addLast(new RpcClientHandler());
                         }
                     });
 
@@ -47,7 +43,7 @@ public class NettyClient {
 
     public static void main(String[] args) {
         try {
-            new NettyClient().connect(8088, "127.0.0.1");
+            new RpcClient().connect(8088, "127.0.0.1");
         } catch (Exception e) {
             e.printStackTrace();
         }

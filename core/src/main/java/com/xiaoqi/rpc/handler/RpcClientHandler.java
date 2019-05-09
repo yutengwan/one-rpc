@@ -1,7 +1,5 @@
-/**
- * Alipay.com Inc. Copyright (c) 2004-2019 All Rights Reserved.
- */
-package com.yuteng.rpc.handler;
+
+package com.xiaoqi.rpc.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -10,13 +8,13 @@ import io.netty.channel.ChannelHandlerContext;
 
 /**
  *
- * @author wanyuteng
- * @version $Id: ClientHandler.java, v 0.1 2019年05月03日 4:58 PM wanyuteng Exp $
+ * 客户端handler
+ * @version $Id: RpcClientHandler.java, v 0.1 2019年05月03日 4:58 PM  Exp $
  */
-public class ClientHandler extends ChannelHandlerAdapter {
+public class RpcClientHandler extends ChannelHandlerAdapter {
     private final ByteBuf firstMessage;
 
-    public ClientHandler() {
+    public RpcClientHandler() {
         byte[] req = "QUERY TIME ORDER".getBytes();
         firstMessage = Unpooled.buffer(req.length);
         firstMessage.writeBytes(req);

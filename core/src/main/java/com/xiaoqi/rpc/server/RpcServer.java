@@ -1,9 +1,7 @@
-/**
- * Alipay.com Inc. Copyright (c) 2004-2019 All Rights Reserved.
- */
-package com.yuteng.rpc.netty;
 
-import com.yuteng.rpc.handler.ServerHandler;
+package com.xiaoqi.rpc.server;
+
+import com.xiaoqi.rpc.handler.RpcSendHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -15,10 +13,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
  *
- * @author wanyuteng
- * @version $Id: NettyServer.java, v 0.1 2019年04月30日 5:25 PM wanyuteng Exp $
+ * @author
+ * @version $Id: RpcServer.java, v 0.1 2019年04月30日 5:25 PM  Exp $
  */
-public class NettyServer {
+public class RpcServer {
 
     public void startServer(int port) throws Exception {
         // 配置服务端的NIO线程组，网络事件处理
@@ -36,7 +34,7 @@ public class NettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new ServerHandler());
+                            ch.pipeline().addLast(new RpcSendHandler());
                         }
                     });
 
@@ -52,7 +50,7 @@ public class NettyServer {
 
     public static void main(String[] args) {
         try {
-            new NettyServer().startServer(8088);
+            new RpcServer().startServer(8088);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,40 +1,42 @@
 package com.xiaoqi.rpc.core;
 
-import com.xiaoqi.rpc.model.MessageRequest;
-import com.xiaoqi.rpc.model.MessageResponse;
+import com.xiaoqi.rpc.model.RpcRequest;
+import com.xiaoqi.rpc.model.RpcResponse;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * »Øµ÷£¬µ±ÇëÇó·¢³öÈ¥Ö®ºó£¬½ÓÊÕµ½·µ»ØÊı¾İÊ±£¬»Øµ÷·½·¨
+ * å›è°ƒï¼Œå½“è¯·æ±‚å‘å‡ºå»ä¹‹åï¼Œæ¥æ”¶åˆ°è¿”å›æ•°æ®æ—¶ï¼Œå›è°ƒæ–¹æ³•
  */
 public class RpcCallback {
-    private MessageRequest  request;
-    private MessageResponse response;
-    private Lock            lock      = new ReentrantLock();
-    private Condition       condition = lock.newCondition();
+    private RpcRequest  request;
+    private RpcResponse response;
+    private Lock        lock      = new ReentrantLock();
+    private Condition   condition = lock.newCondition();
 
-    public RpcCallback(MessageRequest request) {
+    private boolean flag = true;
+
+    public RpcCallback(RpcRequest request) {
         this.request = request;
     }
 
     /**
-     * µÈ´ıresponse
+     * ç­‰å¾…response
      *
      * @return
      */
     public Object waitResponse() {
+        lock.lock();
         try {
-            lock.lock();
             try {
-                condition.wait();
+                condition.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            // »ñÈ¡·µ»ØÖµĞÅÏ¢
+            // è·å–è¿”å›å€¼ä¿¡æ¯
             if (response != null) {
                 return response.getResult();
             }
@@ -45,15 +47,16 @@ public class RpcCallback {
     }
 
     /**
-     * µ±ÊÕµ½²éÑ¯½á¹ûÖ®ºó£¬ÊÍ·ÅËø
+     * å½“æ”¶åˆ°æŸ¥è¯¢ç»“æœä¹‹åï¼Œé‡Šæ”¾é”
      *
      * @param response
      */
-    public void getResponse(MessageResponse response) {
+    public void getResponse(RpcResponse response) {
         try {
             lock.lock();
             condition.signal();
             this.response = response;
+            flag = false;
         } finally {
             lock.unlock();
         }

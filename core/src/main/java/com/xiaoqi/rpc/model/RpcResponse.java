@@ -1,7 +1,7 @@
 
 package com.xiaoqi.rpc.model;
 
-public class MessageResponse {
+public class RpcResponse {
     private String requestId;
     private String message;
     private Object result;

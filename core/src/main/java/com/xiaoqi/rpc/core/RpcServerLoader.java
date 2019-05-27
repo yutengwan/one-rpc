@@ -4,19 +4,19 @@ package com.xiaoqi.rpc.core;
 import com.xiaoqi.rpc.handler.RpcSendHandler;
 
 /**
- * server¶ËÆô¶¯Ê±£¬¾ÍĞèÒª³õÊ¼»¯µÄÊı¾İ
+ * serverç«¯å¯åŠ¨æ—¶ï¼Œå°±éœ€è¦åˆå§‹åŒ–çš„æ•°æ®
  *
- * @version $Id: RpcServerLoader.java, v 0.1 2019Äê05ÔÂ07ÈÕ 5:27 PM  Exp $
+ * @version $Id: RpcServerLoader.java
  */
 public class RpcServerLoader {
 
     /**
-     * µ¥Àı¶ÔÏó
+     * å•ä¾‹å¯¹è±¡
      */
     private static volatile RpcServerLoader nettyServerLoader;
 
     /**
-     * ÏûÏ¢·¢ËÍhandler
+     * æ¶ˆæ¯å‘é€handler
      */
     private RpcSendHandler nettyServerHandler;
 

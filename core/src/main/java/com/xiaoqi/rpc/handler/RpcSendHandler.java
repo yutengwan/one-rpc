@@ -2,9 +2,8 @@
 package com.xiaoqi.rpc.handler;
 
 import com.xiaoqi.rpc.core.RpcCallback;
-import com.xiaoqi.rpc.model.MessageRequest;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import com.xiaoqi.rpc.model.RpcRequest;
+import com.xiaoqi.rpc.model.RpcResponse;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -12,30 +11,28 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * ·¢ËÍ¶Ëhandler
+ * å‘é€ç«¯handler
  *
- * @version $Id: NettySendHandler.java, v 0.1 2019Äê05ÔÂ03ÈÕ 4:37 PM  Exp $
+ * @version $Id: NettySendHandler.java, v 0.1 2019å¹´05æœˆ03æ—¥ 4:37 PM  Exp $
  */
 public class RpcSendHandler extends ChannelHandlerAdapter {
 
     private ConcurrentHashMap<String, RpcCallback> rpcCallbackConcurrentHashMap = new ConcurrentHashMap<>();
 
     /**
-     * ÏûÏ¢·¢ËÍ¹ÜµÀ
+     * æ¶ˆæ¯å‘é€ç®¡é“
      */
     private volatile Channel channel;
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf byteBuf = (ByteBuf) msg;
-        byte[] req = new byte[byteBuf.readableBytes()];
-        byteBuf.readBytes(req);
-        String body = new String(req, "UTF-8");
-        System.out.println("The server receive order:" + body);
-        String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? new java.util.Date(
-                System.currentTimeMillis()).toString() : "BAD ORDER";
-        ByteBuf resp = Unpooled.copiedBuffer(currentTime.getBytes());
-        ctx.write(resp);
+        RpcResponse response = (RpcResponse) msg;
+        String requestId = response.getRequestId();
+        RpcCallback rpcCallback = rpcCallbackConcurrentHashMap.get(requestId);
+        if (rpcCallback != null) {
+            rpcCallbackConcurrentHashMap.remove(requestId);
+            rpcCallback.getResponse(response);
+        }
     }
 
     @Override
@@ -59,7 +56,7 @@ public class RpcSendHandler extends ChannelHandlerAdapter {
         ctx.close();
     }
 
-    public RpcCallback sendMessage(MessageRequest request) {
+    public RpcCallback sendMessage(RpcRequest request) {
         RpcCallback rpcCallback = new RpcCallback(request);
         rpcCallbackConcurrentHashMap.put(request.getMessageId(), rpcCallback);
         channel.writeAndFlush(request);

@@ -14,20 +14,20 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 /**
  *
  * @author
- * @version $Id: RpcServer.java, v 0.1 2019Äê04ÔÂ30ÈÕ 5:25 PM  Exp $
+ * @version $Id: RpcServer.java, v 0.1 2019å¹´04æœˆ30æ—¥ 5:25 PM  Exp $
  */
 public class RpcServer {
 
     public void startServer(int port) throws Exception {
-        // ÅäÖÃ·şÎñ¶ËµÄNIOÏß³Ì×é£¬ÍøÂçÊÂ¼ş´¦Àí
-        // ÍøÂçÊÂ¼ş´¦Àí
+        // é…ç½®æœåŠ¡ç«¯çš„NIOçº¿ç¨‹ç»„ï¼Œç½‘ç»œäº‹ä»¶å¤„ç†
+        // ç½‘ç»œäº‹ä»¶å¤„ç†
         EventLoopGroup boosGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
 
         try {
-            // Æô¶¯NIO·şÎñ¶ËµÄ¸¨ÖúÆô¶¯Àà
+            // å¯åŠ¨NIOæœåŠ¡ç«¯çš„è¾…åŠ©å¯åŠ¨ç±»
             ServerBootstrap serverBootstrap = new ServerBootstrap();
-            //½«´´½¨µÄchannel×÷ÎªServerSocketChannel
+            //å°†åˆ›å»ºçš„channelä½œä¸ºServerSocketChannel
             serverBootstrap.group(boosGroup, workGroup)
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 1024)
@@ -38,21 +38,13 @@ public class RpcServer {
                         }
                     });
 
-            // °ó¶¨¶Ë¿Ú£¬Í¬²½µÈ´ı³É¹¦
+            // ç»‘å®šç«¯å£ï¼ŒåŒæ­¥ç­‰å¾…æˆåŠŸ
             ChannelFuture cf = serverBootstrap.bind(port).sync();
 
             cf.channel().closeFuture().sync();
         } finally {
             boosGroup.shutdownGracefully();
             workGroup.shutdownGracefully();
-        }
-    }
-
-    public static void main(String[] args) {
-        try {
-            new RpcServer().startServer(8088);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

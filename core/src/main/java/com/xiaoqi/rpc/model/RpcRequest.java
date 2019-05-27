@@ -4,34 +4,34 @@ package com.xiaoqi.rpc.model;
 import java.io.Serializable;
 
 /**
- * ÏûÏ¢ÌåÃèÊö
+ * æ¶ˆæ¯ä½“æè¿°
  *
  * @author
- * @version $Id: MessageRequest.java, v 0.1 2019Äê05ÔÂ03ÈÕ 10:04 PM  Exp $
+ * @version $Id: RpcRequest.java, v 0.1 2019å¹´05æœˆ03æ—¥ 10:04 PM  Exp $
  */
-public class MessageRequest implements Serializable {
+public class RpcRequest implements Serializable {
     /**
-     * ÏûÏ¢Î¨Ò»Id£¬requestºÍresponse¸ù¾İidÓ³Éä
+     * æ¶ˆæ¯å”¯ä¸€Idï¼Œrequestå’Œresponseæ ¹æ®idæ˜ å°„
      */
     private String messageId;
 
     /**
-     * µ÷ÓÃÀàµÄ·şÎñ
+     * è°ƒç”¨ç±»çš„æœåŠ¡
      */
     private String className;
 
     /**
-     * Àà¶ÔÓ¦µÄ·½·¨
+     * ç±»å¯¹åº”çš„æ–¹æ³•
      */
     private String methodName;
 
     /**
-     * ²ÎÊıÀàĞÍ
+     * å‚æ•°ç±»å‹
      */
     private Class<?>[] typeParameters;
 
     /**
-     * ²ÎÊıÖµ
+     * å‚æ•°å€¼
      */
     private Object[] parametersVal;
 

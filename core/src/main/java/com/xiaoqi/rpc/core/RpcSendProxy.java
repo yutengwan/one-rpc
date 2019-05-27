@@ -3,21 +3,21 @@ package com.xiaoqi.rpc.core;
 
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.xiaoqi.rpc.handler.RpcSendHandler;
-import com.xiaoqi.rpc.model.MessageRequest;
+import com.xiaoqi.rpc.model.RpcRequest;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
- * ´úÀíÀà£¬¶ÔÏóÉú³ÉÊ±£¬Ê¹ÓÃ´úÀíÀà£¬Ô¶³Ìµ÷ÓÃ
+ * ä»£ç†ç±»ï¼Œå¯¹è±¡ç”Ÿæˆæ—¶ï¼Œä½¿ç”¨ä»£ç†ç±»ï¼Œè¿œç¨‹è°ƒç”¨
  *
- * @version $Id: RpcSendProxy.java, v 0.1 2019Äê05ÔÂ07ÈÕ 5:41 PM  Exp $
+ * @version $Id: RpcSendProxy.java, v 0.1 2019å¹´05æœˆ07æ—¥ 5:41 PM  Exp $
  */
 public class RpcSendProxy extends AbstractInvocationHandler {
 
     @Override
     protected Object handleInvocation(Object o, Method method, Object[] objects) throws Throwable {
-        MessageRequest request = new MessageRequest();
+        RpcRequest request = new RpcRequest();
         request.setMessageId(UUID.randomUUID().toString());
         request.setClassName(method.getDeclaringClass().getName());
         request.setMethodName(method.getName());
@@ -27,7 +27,7 @@ public class RpcSendProxy extends AbstractInvocationHandler {
         RpcSendHandler sendHandler = RpcServerLoader.getInstance().getNettyServerHandler();
         RpcCallback rpcCallback = sendHandler.sendMessage(request);
 
-        // µÈ´ı·şÎñ¶Ë·µ»Ø£¬Í¬²½½Ó¿Ú£¬ĞèÒªµÈ´ı·şÎñ¶Ëµ÷ÓÃ·µ»ØÖ®ºó
+        // ç­‰å¾…æœåŠ¡ç«¯è¿”å›ï¼ŒåŒæ­¥æ¥å£ï¼Œéœ€è¦ç­‰å¾…æœåŠ¡ç«¯è°ƒç”¨è¿”å›ä¹‹å
         return rpcCallback.waitResponse();
     }
 }

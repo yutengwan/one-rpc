@@ -3,7 +3,7 @@ package com.xiaoqi.rpc.exception;
 /**
  * service not exit
  *
- * @author wanyuteng
+ * @author xiaoqi
  * @version $Id: ServiceNotExistException.java
  */
 public class ServiceNotExistException extends RuntimeException {

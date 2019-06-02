@@ -1,6 +1,7 @@
 
 package com.xiaoqi.rpc.handler;
 
+import com.alibaba.fastjson.JSON;
 import com.xiaoqi.rpc.core.RegisterServices;
 import com.xiaoqi.rpc.exception.ServiceNotExistException;
 import com.xiaoqi.rpc.model.RpcRequest;
@@ -19,6 +20,7 @@ public class RpcReceiveHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("receive msg" + JSON.toJSONString(msg));
         RpcRequest request = (RpcRequest) msg;
         RpcResponse rpcResponse = new RpcResponse();
         Object result = doHandler(request);

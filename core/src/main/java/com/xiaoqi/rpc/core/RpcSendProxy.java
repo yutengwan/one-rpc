@@ -15,11 +15,17 @@ import java.util.UUID;
  */
 public class RpcSendProxy extends AbstractInvocationHandler {
 
+    private Class<?> clazz;
+
+    public RpcSendProxy(Class<?> clazz) {
+        this.clazz = clazz;
+    }
+
     @Override
     protected Object handleInvocation(Object o, Method method, Object[] objects) throws Throwable {
         RpcRequest request = new RpcRequest();
         request.setMessageId(UUID.randomUUID().toString());
-        request.setClassName(method.getDeclaringClass().getName());
+        request.setClassName(clazz.getSimpleName());
         request.setMethodName(method.getName());
         request.setTypeParameters(method.getParameterTypes());
         request.setParametersVal(objects);

@@ -1,6 +1,7 @@
 
 package com.xiaoqi.rpc.handler;
 
+import com.alibaba.fastjson.JSON;
 import com.xiaoqi.rpc.core.RpcCallback;
 import com.xiaoqi.rpc.model.RpcRequest;
 import com.xiaoqi.rpc.model.RpcResponse;
@@ -26,6 +27,7 @@ public class RpcSendHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("receive msg:" + JSON.toJSONString(msg));
         RpcResponse response = (RpcResponse) msg;
         String requestId = response.getRequestId();
         RpcCallback rpcCallback = rpcCallbackConcurrentHashMap.get(requestId);
@@ -36,23 +38,14 @@ public class RpcSendHandler extends ChannelHandlerAdapter {
     }
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        super.channelActive(ctx);
-    }
-
-    @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         super.channelRegistered(ctx);
         channel = ctx.channel();
     }
-
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        ctx.flush();
-    }
-
+    
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
         ctx.close();
     }
 

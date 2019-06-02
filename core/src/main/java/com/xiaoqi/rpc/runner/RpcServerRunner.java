@@ -14,14 +14,11 @@ public class RpcServerRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("rpc register runner");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new RpcServer().startServer(8877);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        new Thread(() -> {
+            try {
+                new RpcServer().startServer(8877);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }).start();
     }

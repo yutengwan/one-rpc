@@ -1,7 +1,11 @@
 
 package com.xiaoqi.rpc.server;
 
-import com.xiaoqi.rpc.handler.RpcSendHandler;
+import com.xiaoqi.rpc.handler.RpcReceiveHandler;
+import com.xiaoqi.rpc.model.RpcRequest;
+import com.xiaoqi.rpc.model.RpcResponse;
+import com.xiaoqi.rpc.serialize.MessageDecoder;
+import com.xiaoqi.rpc.serialize.MessageEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -34,7 +38,11 @@ public class RpcServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new RpcSendHandler());
+                            // add的顺序决定了，handler处理的顺序
+                            // 顺序不要弄混了
+                            ch.pipeline().addLast(new MessageDecoder(RpcRequest.class));
+                            ch.pipeline().addLast(new MessageEncoder(RpcResponse.class));
+                            ch.pipeline().addLast(new RpcReceiveHandler());
                         }
                     });
 

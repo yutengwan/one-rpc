@@ -7,14 +7,14 @@
     <artifactId>core</artifactId>
 
     <parent>
-        <artifactId>java-rpc</artifactId>
+        <artifactId>one-rpc</artifactId>
         <groupId>com.onerpc</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>com.xiaoqi.rpc</groupId>
+            <groupId>com.onerpc</groupId>
             <artifactId>api</artifactId>
         </dependency>
 
@@ -48,6 +48,11 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
     </dependencies>
 

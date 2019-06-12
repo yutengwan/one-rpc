@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.onerpc</groupId>
-    <artifactId>java-rpc</artifactId>
+    <artifactId>one-rpc</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -29,12 +29,18 @@
                 <version>2.1.5.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- spring end -->
 
             <!-- module依赖 -->
             <dependency>
-                <groupId>com.xiaoqi.rpc</groupId>
+                <groupId>com.onerpc</groupId>
                 <artifactId>api</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>

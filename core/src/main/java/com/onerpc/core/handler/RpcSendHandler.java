@@ -8,6 +8,8 @@ import com.onerpc.core.model.RpcResponse;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,6 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class RpcSendHandler extends ChannelHandlerAdapter {
 
+    private static final Logger logger = LoggerFactory.getLogger(RpcSendHandler.class);
+
     private ConcurrentHashMap<String, RpcCallback> rpcCallbackConcurrentHashMap = new ConcurrentHashMap<>();
 
     /**
@@ -27,7 +31,7 @@ public class RpcSendHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("receive msg:" + JSON.toJSONString(msg));
+        logger.info("receive msg={}", JSON.toJSONString(msg));
         RpcResponse response = (RpcResponse) msg;
         String requestId = response.getRequestId();
         RpcCallback rpcCallback = rpcCallbackConcurrentHashMap.get(requestId);
@@ -45,7 +49,7 @@ public class RpcSendHandler extends ChannelHandlerAdapter {
     
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
+        logger.warn("rpc send handler catch exception", cause);
         ctx.close();
     }
 

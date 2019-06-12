@@ -15,12 +15,15 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author xiaoqi
  * @version $Id: RpcClient.java
  */
 public class RpcClient {
+    private static final Logger logger = LoggerFactory.getLogger(RpcClient.class);
 
     private NioEventLoopGroup worker;
 
@@ -59,7 +62,7 @@ public class RpcClient {
         rpcClient.start("127.0.0.1", 8877);
         HelloService service = Reflection.newProxy(HelloService.class, new RpcSendProxy(HelloService.class));
         String result = service.sayHello("hello world");
-        System.out.println(result);
+        logger.info("receive result={}", result);
     }
 
 }

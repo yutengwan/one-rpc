@@ -8,6 +8,8 @@ import com.onerpc.core.model.RpcRequest;
 import com.onerpc.core.model.RpcResponse;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 
@@ -17,10 +19,11 @@ import java.lang.reflect.Method;
  * @version $Id: RpcReceiveHandler.java, v 0.1 2019年05月09日 11:18 AM Exp $
  */
 public class RpcReceiveHandler extends ChannelHandlerAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(RpcReceiveHandler.class);
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("receive msg" + JSON.toJSONString(msg));
+        logger.info("receive msg={}", JSON.toJSONString(msg));
         RpcRequest request = (RpcRequest) msg;
         RpcResponse rpcResponse = new RpcResponse();
         Object result = doHandler(request);

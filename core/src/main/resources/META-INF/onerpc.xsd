@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.onerpc.com/onerpc"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:beans="http://www.springframework.org/schema/beans"
+            targetNamespace="http://www.onerpc.com/onerpc"
+            elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+
+    <!-- rpc service public -->
+    <xsd:element name="service">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="id" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <![CDATA[ The service unique id. ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="serviceName" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <![CDATA[ The service name for the rpc invoke. ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="ref" type="xsd:string" use="required" >
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <![CDATA[ The service ref the impl bean. ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="interface" type="xsd:string" use="required" >
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <![CDATA[ The service interface. ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+   <!-- refer bean-->
+    <xsd:element name="reference">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="id" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <![CDATA[ The service unique id. ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="serviceName" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <![CDATA[ The service name to invoke. ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="protocol" type="xsd:string" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <![CDATA[ The service protocol to encode or decode. ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="interface" type="xsd:string" use="required" >
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <![CDATA[ The service interface. ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

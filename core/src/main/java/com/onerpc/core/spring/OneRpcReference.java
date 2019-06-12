@@ -20,7 +20,7 @@ public class OneRpcReference implements FactoryBean, InitializingBean {
 
     @Override
     public Object getObject() throws Exception {
-        return Reflection.newProxy(getObjectType(), new RpcSendProxy(getObjectType()));
+        return Reflection.newProxy(getObjectType(), new RpcSendProxy(getObjectType(), serviceName));
     }
 
     @Override

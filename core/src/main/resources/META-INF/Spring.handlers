@@ -1,1 +1,1 @@
-http\://www.onerpc.com/schema/onerpc=com.onerpc.core.spring.OneRpcNamespaceHandler
+http\://www.onerpc.com/onerpc=com.onerpc.core.spring.OneRpcNamespaceHandler

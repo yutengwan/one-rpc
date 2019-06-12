@@ -18,7 +18,7 @@ public class RpcRequest implements Serializable {
     /**
      * 调用类的服务
      */
-    private String className;
+    private String serviceName;
 
     /**
      * 类对应的方法
@@ -43,12 +43,12 @@ public class RpcRequest implements Serializable {
         this.messageId = messageId;
     }
 
-    public String getClassName() {
-        return className;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public String getMethodName() {

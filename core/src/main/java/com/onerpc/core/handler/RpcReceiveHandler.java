@@ -39,9 +39,9 @@ public class RpcReceiveHandler extends ChannelHandlerAdapter {
     }
 
     private Object doHandler(RpcRequest rpcRequest) throws Exception {
-        Object object = RegisterServices.getInstance().getService(rpcRequest.getClassName());
+        Object object = RegisterServices.getInstance().getService(rpcRequest.getServiceName());
         if (object == null) {
-            throw new ServiceNotExistException(rpcRequest.getClassName() + " service not exist");
+            throw new ServiceNotExistException(rpcRequest.getServiceName() + " service not exist");
         }
 
         Class<?> beanClass = object.getClass();

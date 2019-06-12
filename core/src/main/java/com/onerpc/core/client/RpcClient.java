@@ -1,8 +1,6 @@
 package com.onerpc.core.client;
 
-import com.google.common.reflect.Reflection;
 import com.onerpc.api.HelloService;
-import com.onerpc.core.core.RpcSendProxy;
 import com.onerpc.core.core.RpcServerLoader;
 import com.onerpc.core.handler.RpcSendHandler;
 import com.onerpc.core.model.RpcRequest;
@@ -17,6 +15,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author xiaoqi
@@ -60,7 +59,10 @@ public class RpcClient {
 
         RpcClient rpcClient = new RpcClient();
         rpcClient.start("127.0.0.1", 8877);
-        HelloService service = Reflection.newProxy(HelloService.class, new RpcSendProxy(HelloService.class));
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:one-rpc-service.xml");
+
+        HelloService service = (HelloService) context.getBean("rpcReference");
+
         String result = service.sayHello("hello world");
         logger.info("receive result={}", result);
     }

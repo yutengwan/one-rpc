@@ -11,14 +11,6 @@
         <xsd:complexType>
             <xsd:complexContent>
                 <xsd:extension base="beans:identifiedType">
-                    <xsd:attribute name="id" type="xsd:string">
-                        <xsd:annotation>
-                            <xsd:documentation>
-                                <![CDATA[ The service unique id. ]]>
-                            </xsd:documentation>
-                        </xsd:annotation>
-                    </xsd:attribute>
-
                     <xsd:attribute name="serviceName" type="xsd:string">
                         <xsd:annotation>
                             <xsd:documentation>
@@ -52,14 +44,6 @@
         <xsd:complexType>
             <xsd:complexContent>
                 <xsd:extension base="beans:identifiedType">
-                    <xsd:attribute name="id" type="xsd:string">
-                        <xsd:annotation>
-                            <xsd:documentation>
-                                <![CDATA[ The service unique id. ]]>
-                            </xsd:documentation>
-                        </xsd:annotation>
-                    </xsd:attribute>
-
                     <xsd:attribute name="serviceName" type="xsd:string">
                         <xsd:annotation>
                             <xsd:documentation>

@@ -1,5 +1,8 @@
 package com.onerpc.core.core;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -9,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class RegisterServices {
 
+    private static final    Logger           logger = LoggerFactory.getLogger(RegisterServices.class);
     /**
      * 单例
      */
@@ -40,6 +44,7 @@ public class RegisterServices {
      * @param bean
      */
     public void registerService(String name, Object bean) {
+        logger.info("register service, serviceName={}", name);
         serviceMap.put(name, bean);
     }
 

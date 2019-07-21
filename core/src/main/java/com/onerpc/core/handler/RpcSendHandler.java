@@ -3,8 +3,8 @@ package com.onerpc.core.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.onerpc.core.core.RpcCallback;
-import com.onerpc.core.model.RpcRequest;
-import com.onerpc.core.model.RpcResponse;
+import com.onerpc.facade.model.RpcRequest;
+import com.onerpc.facade.model.RpcResponse;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;

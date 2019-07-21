@@ -2,10 +2,10 @@
 package com.onerpc.core.server;
 
 import com.onerpc.core.handler.RpcReceiveHandler;
-import com.onerpc.core.model.RpcRequest;
-import com.onerpc.core.model.RpcResponse;
 import com.onerpc.core.serialize.MessageDecoder;
 import com.onerpc.core.serialize.MessageEncoder;
+import com.onerpc.facade.model.RpcRequest;
+import com.onerpc.facade.model.RpcResponse;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

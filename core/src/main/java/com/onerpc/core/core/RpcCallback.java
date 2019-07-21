@@ -1,7 +1,7 @@
 package com.onerpc.core.core;
 
-import com.onerpc.core.model.RpcRequest;
-import com.onerpc.core.model.RpcResponse;
+import com.onerpc.facade.model.RpcRequest;
+import com.onerpc.facade.model.RpcResponse;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

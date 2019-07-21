@@ -1,5 +1,5 @@
 
-package com.onerpc.core.model;
+package com.onerpc.facade.model;
 
 import java.io.Serializable;
 

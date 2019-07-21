@@ -3,7 +3,7 @@ package com.onerpc.core.core;
 
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.onerpc.core.handler.RpcSendHandler;
-import com.onerpc.core.model.RpcRequest;
+import com.onerpc.facade.model.RpcRequest;
 
 import java.lang.reflect.Method;
 import java.util.UUID;

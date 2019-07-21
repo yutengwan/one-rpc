@@ -1,4 +1,4 @@
-package com.onerpc.api;
+package com.onerpc.facade.api;
 
 /**
  * @version $Id: HelloService.java, v 0.1 2019年05月20日 7:35 PM Exp $

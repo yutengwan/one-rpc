@@ -1,5 +1,5 @@
 
-package com.onerpc.core.model;
+package com.onerpc.facade.model;
 
 public class RpcResponse {
     private String requestId;

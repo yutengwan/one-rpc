@@ -3,6 +3,7 @@ package com.onerpc.core.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.onerpc.core.core.RpcCallback;
+import com.onerpc.core.util.LoggerHelper;
 import com.onerpc.facade.model.RpcRequest;
 import com.onerpc.facade.model.RpcResponse;
 import io.netty.channel.Channel;
@@ -31,7 +32,7 @@ public class RpcSendHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        logger.info("receive msg={}", JSON.toJSONString(msg));
+        LoggerHelper.info(logger, "receive msg={}", JSON.toJSONString(msg));
         RpcResponse response = (RpcResponse) msg;
         String requestId = response.getRequestId();
         RpcCallback rpcCallback = rpcCallbackConcurrentHashMap.get(requestId);
@@ -49,7 +50,7 @@ public class RpcSendHandler extends ChannelHandlerAdapter {
     
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        logger.warn("rpc send handler catch exception", cause);
+        LoggerHelper.error(logger, "rpc send handler catch exception", cause);
         ctx.close();
     }
 

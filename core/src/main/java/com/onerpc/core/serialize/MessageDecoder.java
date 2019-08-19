@@ -1,22 +1,37 @@
 package com.onerpc.core.serialize;
 
-import com.alibaba.fastjson.JSON;
+import com.onerpc.core.handler.RpcSendHandler;
+import com.onerpc.core.serialize.json.JsonSerializer;
+import com.onerpc.core.serialize.kryo.KryoSerializer;
+import com.onerpc.core.util.LoggerHelper;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 /**
- * @author xiaoqi
  * @version $Id: MessageDecoder.java
  */
-public class MessageDecoder extends ByteToMessageDecoder {
+public class MessageDecoder<T> extends ByteToMessageDecoder {
 
-    private Class<?> genericClass;
+    private static final Logger logger = LoggerFactory.getLogger(RpcSendHandler.class);
 
-    public MessageDecoder(Class<?> genericClass) {
-        this.genericClass = genericClass;
+    private final Class<T> genericClass;
+    private Serializer serializer;
+
+    public MessageDecoder(Class<T> tClass, ProtocolEnum protocolEnum) {
+        genericClass = tClass;
+        switch (protocolEnum) {
+            case KRYO:
+                serializer = new KryoSerializer(genericClass);
+                break;
+            case JSON:
+                serializer = new JsonSerializer(genericClass);
+            default:
+        }
     }
 
     @Override
@@ -36,9 +51,15 @@ public class MessageDecoder extends ByteToMessageDecoder {
             return;
         }
 
-        byte[] body = new byte[dataLength];
-        in.readBytes(body);
-        Object o = JSON.parseObject(body, genericClass);
-        out.add(o);
+        try {
+            byte[] body = new byte[dataLength];
+            in.readBytes(body);
+            Object o = serializer.deserialize(body);
+            out.add(o);
+        } catch (Exception e) {
+            LoggerHelper.error(logger, "decode exception", e);
+            throw e;
+        }
+
     }
 }

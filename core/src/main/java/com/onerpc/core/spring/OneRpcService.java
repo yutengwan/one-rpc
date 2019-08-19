@@ -26,9 +26,9 @@ public class OneRpcService implements ApplicationContextAware {
 
         // 注册rpc service
         if (StringUtils.isEmpty(serviceName)) {
-            RegisterServices.getInstance().registerService(serviceName, bean);
-        } else {
             RegisterServices.getInstance().registerService(interfaceName, bean);
+        } else {
+            RegisterServices.getInstance().registerService(serviceName, bean);
         }
     }
 

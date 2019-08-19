@@ -17,7 +17,6 @@ public class RpcServerRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        logger.info("rpc register runner");
         new Thread(() -> {
             try {
                 new RpcServer().startServer(8877);

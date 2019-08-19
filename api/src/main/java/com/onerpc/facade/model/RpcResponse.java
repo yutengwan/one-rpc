@@ -1,7 +1,9 @@
 
 package com.onerpc.facade.model;
 
-public class RpcResponse {
+import java.io.Serializable;
+
+public class RpcResponse implements Serializable {
     private String requestId;
     private String message;
     private Object result;

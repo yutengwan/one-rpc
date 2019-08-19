@@ -1,5 +1,6 @@
 package com.onerpc.core.core;
 
+import com.onerpc.core.util.LoggerHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,7 @@ public class RegisterServices {
      * @param bean
      */
     public void registerService(String name, Object bean) {
-        logger.info("register service, serviceName={}", name);
+        LoggerHelper.info(logger, "register service, serviceName={}", name);
         serviceMap.put(name, bean);
     }
 

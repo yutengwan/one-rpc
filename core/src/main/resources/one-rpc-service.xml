@@ -8,6 +8,6 @@
        http://www.onerpc.com/onerpc
        http://www.onerpc.com/schema/onerpc.xsd  ">
 
-    <bean id="serviceName" class="com.onerpc.core.services.HelloServiceImpl"/>
-    <onerpc:service interface="com.onerpc.facade.api.HelloService" ref="helloService" serviceName="helloService" />
+    <bean id="helloService" class="com.onerpc.core.services.HelloServiceImpl"/>
+    <onerpc:service id="rpcHelloService" interface="com.onerpc.facade.api.HelloService" ref="helloService" serviceName="helloService" />
 </beans>

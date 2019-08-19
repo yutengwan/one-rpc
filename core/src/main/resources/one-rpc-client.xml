@@ -6,7 +6,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.onerpc.com/onerpc
-       http://www.onerpc.com/schema/onerpc.xsd  ">
+       http://www.onerpc.com/schema/onerpc.xsd">
 
-    <onerpc:reference interface="com.onerpc.facade.api.HelloService" id="rpcReference" serviceName="helloService" protocol=""/>
+    <onerpc:reference interface="com.onerpc.facade.api.HelloService" id="rpcReference" serviceName="helloService" protocol="xxx"/>
 </beans>

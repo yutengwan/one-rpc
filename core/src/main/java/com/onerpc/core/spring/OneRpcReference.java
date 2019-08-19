@@ -2,6 +2,7 @@ package com.onerpc.core.spring;
 
 import com.google.common.reflect.Reflection;
 import com.onerpc.core.core.RpcSendProxy;
+import com.onerpc.core.util.LoggerHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
@@ -28,7 +29,7 @@ public class OneRpcReference implements FactoryBean, InitializingBean {
         try {
             return getClass().getClassLoader().loadClass(interfaceName);
         } catch (ClassNotFoundException e) {
-            logger.warn("reference parse failed", e);
+            LoggerHelper.warn(logger, "reference parse failed", e);
             return null;
         }
     }

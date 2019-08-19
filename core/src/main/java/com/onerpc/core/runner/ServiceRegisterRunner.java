@@ -25,7 +25,7 @@ public class ServiceRegisterRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        logger.info("service register");
+
         Map<String, Object> beans = appContext.getBeansWithAnnotation(RpcService.class);
 
         // 获取服务service列表

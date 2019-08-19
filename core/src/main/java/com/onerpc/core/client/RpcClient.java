@@ -4,6 +4,8 @@ import com.onerpc.core.core.RpcServerLoader;
 import com.onerpc.core.handler.RpcSendHandler;
 import com.onerpc.core.serialize.MessageDecoder;
 import com.onerpc.core.serialize.MessageEncoder;
+import com.onerpc.core.serialize.ProtocolEnum;
+import com.onerpc.core.util.LoggerHelper;
 import com.onerpc.facade.api.HelloService;
 import com.onerpc.facade.model.RpcRequest;
 import com.onerpc.facade.model.RpcResponse;
@@ -39,8 +41,8 @@ public class RpcClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new MessageDecoder(RpcResponse.class));
-                        ch.pipeline().addLast(new MessageEncoder(RpcRequest.class));
+                        ch.pipeline().addLast(new MessageDecoder(RpcResponse.class, ProtocolEnum.KRYO));
+                        ch.pipeline().addLast(new MessageEncoder(RpcRequest.class, ProtocolEnum.KRYO));
                         ch.pipeline().addLast(sendHandler);
                     }
                 }).option(ChannelOption.SO_KEEPALIVE, true);
@@ -59,12 +61,12 @@ public class RpcClient {
 
         RpcClient rpcClient = new RpcClient();
         rpcClient.start("127.0.0.1", 8877);
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:one-rpc-service.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:one-rpc-client.xml");
 
         HelloService service = (HelloService) context.getBean("rpcReference");
 
         String result = service.sayHello("hello world");
-        logger.info("receive result={}", result);
+        LoggerHelper.info(logger, "receive result={}", result);
     }
 
 }

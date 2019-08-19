@@ -4,6 +4,7 @@ package com.onerpc.core.handler;
 import com.alibaba.fastjson.JSON;
 import com.onerpc.core.core.RegisterServices;
 import com.onerpc.core.exception.ServiceNotExistException;
+import com.onerpc.core.util.LoggerHelper;
 import com.onerpc.facade.model.RpcRequest;
 import com.onerpc.facade.model.RpcResponse;
 import io.netty.channel.ChannelHandlerAdapter;
@@ -23,7 +24,7 @@ public class RpcReceiveHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        logger.info("receive msg={}", JSON.toJSONString(msg));
+        LoggerHelper.info(logger, "receive msg={}", JSON.toJSONString(msg));
         RpcRequest request = (RpcRequest) msg;
         RpcResponse rpcResponse = new RpcResponse();
         Object result = doHandler(request);

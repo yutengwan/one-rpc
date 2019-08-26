@@ -7,7 +7,7 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
 /**
- * @author wanyuteng
+ *
  * @version $Id: OneRpcServiceParser.java
  */
 public class OneRpcServiceParser implements BeanDefinitionParser {

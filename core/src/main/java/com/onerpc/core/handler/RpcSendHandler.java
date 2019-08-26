@@ -54,8 +54,8 @@ public class RpcSendHandler extends ChannelHandlerAdapter {
         ctx.close();
     }
 
-    public RpcCallback sendMessage(RpcRequest request) {
-        RpcCallback rpcCallback = new RpcCallback(request);
+    public RpcCallback sendMessage(RpcRequest request, String timeout) {
+        RpcCallback rpcCallback = new RpcCallback(request, timeout);
         rpcCallbackConcurrentHashMap.put(request.getMessageId(), rpcCallback);
         channel.writeAndFlush(request);
         return rpcCallback;

@@ -27,9 +27,15 @@ public class RpcReceiveHandler extends ChannelHandlerAdapter {
         LoggerHelper.info(logger, "receive msg={}", JSON.toJSONString(msg));
         RpcRequest request = (RpcRequest) msg;
         RpcResponse rpcResponse = new RpcResponse();
-        Object result = doHandler(request);
         rpcResponse.setRequestId(request.getMessageId());
-        rpcResponse.setResult(result);
+        try {
+            Object result = doHandler(request);
+            rpcResponse.setResult(result);
+        } catch (Exception e) {
+            rpcResponse.setError(e.getMessage());
+            LoggerHelper.error(logger, "invoke happen error， serviceName={}, method={}, request={}",
+                    e, request.getServiceName(), request.getMethodName(), request.getMessageId());
+        }
         ctx.writeAndFlush(rpcResponse);
     }
 

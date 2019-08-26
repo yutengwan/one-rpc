@@ -18,7 +18,7 @@ public class KryoPoolFactory {
     public Kryo createKryo() {
         Kryo kryo = new Kryo();
         kryo.setReferences(false);
-        kryo.setRegistrationRequired(false);
+        kryo.setRegistrationRequired(true);
         kryo.setWarnUnregisteredClasses(true);
 
         // 所有类型都需要注册，包括子对象类型
@@ -26,6 +26,7 @@ public class KryoPoolFactory {
         kryo.register(Class.class);
         kryo.register(Class[].class);
         kryo.register(Object[].class);
+        kryo.register(String.class);
         return kryo;
     }
 

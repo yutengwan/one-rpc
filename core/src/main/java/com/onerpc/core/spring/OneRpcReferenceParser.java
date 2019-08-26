@@ -7,7 +7,8 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
 /**
- * @author wanyuteng
+ * 解析引用的远程服务
+ *
  * @version $Id: OneRpcReferenceParser.java
  */
 public class OneRpcReferenceParser implements BeanDefinitionParser {
@@ -24,6 +25,7 @@ public class OneRpcReferenceParser implements BeanDefinitionParser {
         String interfaceName = element.getAttribute("interface");
         String serviceName = element.getAttribute("serviceName");
         String protocolType = element.getAttribute("protocol");
+        String timeout = element.getAttribute("timeout");
 
         RootBeanDefinition beanDefinition = new RootBeanDefinition();
         beanDefinition.setBeanClass(beanClass);
@@ -32,6 +34,7 @@ public class OneRpcReferenceParser implements BeanDefinitionParser {
         beanDefinition.getPropertyValues().addPropertyValue("interfaceName", interfaceName);
         beanDefinition.getPropertyValues().addPropertyValue("serviceName", serviceName);
         beanDefinition.getPropertyValues().addPropertyValue("protocol", protocolType);
+        beanDefinition.getPropertyValues().addPropertyValue("timeout", timeout);
 
         parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
         return beanDefinition;

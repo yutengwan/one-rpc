@@ -4,11 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.onerpc.core.serialize.Serializer;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
- * @author wanyuteng
+ * @author
  * @version $Id: JsonSerializer.java
  */
 public class JsonSerializer<T> implements Serializer<T> {

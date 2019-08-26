@@ -9,19 +9,38 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * @author wanyuteng
+ * reference bean
+ * 使用反射机制，远程调用服务
+ *
  * @version $Id: OneRpcReference.java
  */
 public class OneRpcReference implements FactoryBean, InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(OneRpcReference.class);
 
+    /**
+     * interface
+     */
     private String interfaceName;
+
+    /**
+     * rpc service name，unique 服务发布的标识
+     */
     private String serviceName;
+
+    /**
+     * 序列号协议
+     */
     private String protocol;
+
+    /**
+     * 请求超时
+     */
+    private String timeout;
 
     @Override
     public Object getObject() throws Exception {
-        return Reflection.newProxy(getObjectType(), new RpcSendProxy(getObjectType(), serviceName));
+        // 代理调用，调用远程发布的服务
+        return Reflection.newProxy(getObjectType(), new RpcSendProxy(getObjectType(), serviceName, timeout));
     }
 
     @Override
@@ -61,5 +80,13 @@ public class OneRpcReference implements FactoryBean, InitializingBean {
 
     public void setProtocol(String protocol) {
         this.protocol = protocol;
+    }
+
+    public String getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(String timeout) {
+        this.timeout = timeout;
     }
 }

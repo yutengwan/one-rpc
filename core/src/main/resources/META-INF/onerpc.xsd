@@ -67,6 +67,14 @@
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
+
+                    <xsd:attribute name="timeout" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <![CDATA[ The service invoke timeout. ]]>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
                 </xsd:extension>
             </xsd:complexContent>
         </xsd:complexType>

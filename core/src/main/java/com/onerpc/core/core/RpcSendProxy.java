@@ -17,11 +17,20 @@ public class RpcSendProxy extends AbstractInvocationHandler {
 
     private Class<?> clazz;
 
+    /**
+     * rpc server端发布的服务名
+     */
     private String serviceName;
 
-    public RpcSendProxy(Class<?> clazz, String serviceName) {
+    /**
+     * 请求超时时间
+     */
+    private String timeout;
+
+    public RpcSendProxy(Class<?> clazz, String serviceName, String timeout) {
         this.clazz = clazz;
         this.serviceName = serviceName;
+        this.timeout = timeout;
     }
 
     @Override
@@ -34,7 +43,7 @@ public class RpcSendProxy extends AbstractInvocationHandler {
         request.setParametersVal(objects);
 
         RpcSendHandler sendHandler = RpcServerLoader.getInstance().getNettyServerHandler();
-        RpcCallback rpcCallback = sendHandler.sendMessage(request);
+        RpcCallback rpcCallback = sendHandler.sendMessage(request, timeout);
 
         // 等待服务端返回，同步接口，需要等待服务端调用返回之后
         return rpcCallback.waitResponse();

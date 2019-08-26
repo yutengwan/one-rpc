@@ -41,7 +41,7 @@ public class RpcReceiveHandler extends ChannelHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
+        LoggerHelper.error(logger, "rpc receive handler catch exception", cause);
         ctx.close();
     }
 

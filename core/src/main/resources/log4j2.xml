@@ -15,7 +15,7 @@
         </Console>
         <!-- 打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
         <RollingRandomAccessFile name="info" fileName="${logs}/${app}-info.log" immediateFlush="false"
-                                 filePattern="${logs}/$${date:yyyy-MM}/${App}-info-%d{MM-dd-yyyy}-%i.log.gz"
+                                 filePattern="${logs}/$${date:yyyy-MM}/${app}-info-%d{MM-dd-yyyy}-%i.log.gz"
                                  append="true">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss z} [%t] %-5level %logger{36} %L %M - %msg%xEx%n"/>
             <Policies>
@@ -33,7 +33,7 @@
 
         <!-- 存储所有error信息 -->
         <RollingRandomAccessFile name="error" fileName="${logs}/${app}-error.log" immediateFlush="false"
-                                 filePattern="${logDir}/$${date:yyyy-MM}/${App}-error-%d{MM-dd-yyyy}-%i.log.gz"
+                                 filePattern="${logDir}/$${date:yyyy-MM}/${app}-error-%d{MM-dd-yyyy}-%i.log.gz"
                                  append="false">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss z} [%t] %-5level %logger{36} %L %M - %msg%xEx%n"/>
             <Policies>

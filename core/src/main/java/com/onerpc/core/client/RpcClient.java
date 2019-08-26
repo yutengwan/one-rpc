@@ -19,6 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 /**
  * @author xiaoqi
  * @version $Id: RpcClient.java
@@ -57,16 +59,25 @@ public class RpcClient {
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
 
         RpcClient rpcClient = new RpcClient();
         rpcClient.start("127.0.0.1", 8877);
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:one-rpc-client.xml");
 
+        CountDownLatch countDownLatch = new CountDownLatch(100);
         HelloService service = (HelloService) context.getBean("rpcReference");
+        for (int i = 0; i < 100; i++) {
+            int finalI = i;
+            new Thread(() -> {
+                String result = service.sayHello("hello world:" + String.valueOf(finalI));
+                LoggerHelper.info(logger, "receive result={}", result);
+                countDownLatch.countDown();
+            }).start();
+        }
 
-        String result = service.sayHello("hello world");
-        LoggerHelper.info(logger, "receive result={}", result);
+        countDownLatch.await();
+        rpcClient.stop();
     }
 
 }

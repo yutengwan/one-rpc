@@ -3,7 +3,10 @@ package com.onerpc.core.core;
 
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.onerpc.core.handler.RpcSendHandler;
+import com.onerpc.core.util.LoggerHelper;
 import com.onerpc.facade.model.RpcRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -14,6 +17,8 @@ import java.util.UUID;
  * @version $Id: RpcSendProxy.java, v 0.1 2019年05月07日 5:41 PM  Exp $
  */
 public class RpcSendProxy extends AbstractInvocationHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(RpcSendProxy.class);
 
     private Class<?> clazz;
 
@@ -46,6 +51,11 @@ public class RpcSendProxy extends AbstractInvocationHandler {
         RpcCallback rpcCallback = sendHandler.sendMessage(request, timeout);
 
         // 等待服务端返回，同步接口，需要等待服务端调用返回之后
-        return rpcCallback.waitResponse();
+        try {
+            return rpcCallback.waitResponse();
+        } catch (Exception e) {
+            LoggerHelper.error(logger, "handle invocate exception", e);
+            return null;
+        }
     }
 }

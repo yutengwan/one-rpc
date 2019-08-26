@@ -1,6 +1,10 @@
 package com.onerpc.core.serialize.kryo;
 
 import com.esotericsoftware.kryo.Kryo;
+import org.apache.commons.pool2.BasePooledObjectFactory;
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 
 /**
  * @version $Id: KryoPoolFactory.java
@@ -9,10 +13,21 @@ public class KryoPoolFactory {
 
     private Class<?> genericClass;
 
-    private final ThreadLocal<Kryo> holder = ThreadLocal.withInitial(() -> createKryo());
+    private GenericObjectPool<Kryo> kryoPool;
 
     public KryoPoolFactory(Class<?> genericClass) {
         this.genericClass = genericClass;
+        kryoPool = new GenericObjectPool<>(new BasePooledObjectFactory<Kryo>() {
+            @Override
+            public Kryo create() throws Exception {
+                return createKryo();
+            }
+
+            @Override
+            public PooledObject<Kryo> wrap(Kryo kryo) {
+                return new DefaultPooledObject<>(kryo);
+            }
+        });
     }
 
     public Kryo createKryo() {
@@ -30,7 +45,11 @@ public class KryoPoolFactory {
         return kryo;
     }
 
-    public Kryo getKryo() {
-        return holder.get();
+    public Kryo getKryo() throws Exception {
+        return kryoPool.borrowObject();
+    }
+
+    public void returnKryo(Kryo kryo) {
+        kryoPool.returnObject(kryo);
     }
 }

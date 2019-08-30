@@ -13,26 +13,26 @@ import java.io.ByteArrayOutputStream;
  */
 public class KryoSerializer<T> implements Serializer<T> {
 
-    private final Class<T> genericClass;
+    private final Class<T>        serializeClass;
     private final KryoPoolFactory kryoPoolFactory;
 
-    public KryoSerializer(Class<T> genericClass) {
-        this.genericClass = genericClass;
-        kryoPoolFactory = new KryoPoolFactory(this.genericClass);
+    public KryoSerializer(Class<T> serializeClass) {
+        this.serializeClass = serializeClass;
+        kryoPoolFactory = new KryoPoolFactory(this.serializeClass);
     }
 
     @Override
     public byte[] serialize(T t) throws Exception {
-        Kryo kryo = null;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Kryo kryo = kryoPoolFactory.getKryo();
+        Output out = new Output(outputStream);
         try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            kryo = kryoPoolFactory.getKryo();
-            Output out = new Output(outputStream);
             kryo.writeClassAndObject(out, t);
-            out.close();
-            outputStream.close();
+            out.flush();
             return outputStream.toByteArray();
         } finally {
+            out.close();
+            outputStream.close();
             if (kryo != null) {
                 kryoPoolFactory.returnKryo(kryo);
             }
@@ -41,19 +41,18 @@ public class KryoSerializer<T> implements Serializer<T> {
 
     @Override
     public T deserialize(byte[] body) throws Exception {
-        Kryo kryo = null;
+        ByteArrayInputStream input = new ByteArrayInputStream(body);
+        Kryo kryo = kryoPoolFactory.getKryo();
+        Input in = new Input(input);
         try {
-            ByteArrayInputStream input = new ByteArrayInputStream(body);
-            kryo = kryoPoolFactory.getKryo();
-            Input in = new Input(input);
             T result = (T) kryo.readClassAndObject(in);
-            in.close();
-            input.close();
             return result;
         } finally {
             if (kryo != null) {
                 kryoPoolFactory.returnKryo(kryo);
             }
+            input.close();
+            in.close();
         }
     }
 }

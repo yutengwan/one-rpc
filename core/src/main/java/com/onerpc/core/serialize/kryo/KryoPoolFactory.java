@@ -11,12 +11,12 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
  */
 public class KryoPoolFactory {
 
-    private Class<?> genericClass;
+    private final Class<?> serializeClass;
 
-    private GenericObjectPool<Kryo> kryoPool;
+    private final GenericObjectPool<Kryo> kryoPool;
 
-    public KryoPoolFactory(Class<?> genericClass) {
-        this.genericClass = genericClass;
+    public KryoPoolFactory(Class<?> serializeClass) {
+        this.serializeClass = serializeClass;
         kryoPool = new GenericObjectPool<>(new BasePooledObjectFactory<Kryo>() {
             @Override
             public Kryo create() throws Exception {
@@ -37,7 +37,7 @@ public class KryoPoolFactory {
         kryo.setWarnUnregisteredClasses(true);
 
         // 所有类型都需要注册，包括子对象类型
-        kryo.register(genericClass);
+        kryo.register(serializeClass);
         kryo.register(Class.class);
         kryo.register(Class[].class);
         kryo.register(Object[].class);

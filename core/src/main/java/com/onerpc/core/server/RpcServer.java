@@ -41,8 +41,10 @@ public class RpcServer {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             // add的顺序决定了，handler处理的顺序
                             // 顺序不要弄混了
-                            ch.pipeline().addLast(new MessageDecoder(RpcRequest.class, ProtocolEnum.KRYO));
-                            ch.pipeline().addLast(new MessageEncoder(RpcResponse.class, ProtocolEnum.KRYO));
+                            ch.pipeline().addLast(new MessageDecoder(
+                                    RpcRequest.class, ProtocolEnum.FST));
+                            ch.pipeline().addLast(new MessageEncoder(
+                                    RpcResponse.class, ProtocolEnum.FST));
                             ch.pipeline().addLast(new RpcReceiveHandler());
                         }
                     });

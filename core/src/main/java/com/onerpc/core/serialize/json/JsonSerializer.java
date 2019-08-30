@@ -10,10 +10,10 @@ import java.io.IOException;
  * @version $Id: JsonSerializer.java
  */
 public class JsonSerializer<T> implements Serializer<T> {
-    private final Class<T> genericClass;
+    private final Class<T> serializeClass;
 
-    public JsonSerializer(Class<T> genericClass) {
-        this.genericClass = genericClass;
+    public JsonSerializer(Class<T> serializeClass) {
+        this.serializeClass = serializeClass;
     }
 
     @Override
@@ -23,6 +23,6 @@ public class JsonSerializer<T> implements Serializer<T> {
 
     @Override
     public T deserialize(byte[] input) throws IOException {
-        return (T) JSON.parseObject(input, genericClass);
+        return (T) JSON.parseObject(input, serializeClass);
     }
 }

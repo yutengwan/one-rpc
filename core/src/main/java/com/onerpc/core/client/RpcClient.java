@@ -22,7 +22,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * @author xiaoqi
+ * rpc client for connection test
+ *
  * @version $Id: RpcClient.java
  */
 public class RpcClient {
@@ -43,13 +44,15 @@ public class RpcClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new MessageDecoder(RpcResponse.class, ProtocolEnum.KRYO));
-                        ch.pipeline().addLast(new MessageEncoder(RpcRequest.class, ProtocolEnum.KRYO));
+                        ch.pipeline().addLast(new MessageDecoder(RpcResponse.class, ProtocolEnum.FST));
+                        ch.pipeline().addLast(new MessageEncoder(RpcRequest.class, ProtocolEnum.FST));
                         ch.pipeline().addLast(sendHandler);
                     }
                 }).option(ChannelOption.SO_KEEPALIVE, true);
 
         bootstrap.connect(address, port).sync();
+        // 注册 client server handler
+        // 远程调用的时候，使用到改handler
         RpcServerLoader.getInstance().setNettyServerHandler(sendHandler);
     }
 
@@ -60,14 +63,14 @@ public class RpcClient {
     }
 
     public static void main(String[] args) throws Exception {
-
         RpcClient rpcClient = new RpcClient();
         rpcClient.start("127.0.0.1", 8877);
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:one-rpc-client.xml");
 
-        CountDownLatch countDownLatch = new CountDownLatch(100);
+        int threadNums = 100;
+        CountDownLatch countDownLatch = new CountDownLatch(threadNums);
         HelloService service = (HelloService) context.getBean("rpcReference");
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < threadNums; i++) {
             int finalI = i;
             new Thread(() -> {
                 String result = service.sayHello("hello world:" + String.valueOf(finalI));
@@ -79,5 +82,4 @@ public class RpcClient {
         countDownLatch.await();
         rpcClient.stop();
     }
-
 }

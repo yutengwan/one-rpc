@@ -19,8 +19,8 @@ public interface Serializer<T> {
 
     /**
      * deserialize inputstream to t
-     * @param input
+     * @param body
      * @return
      */
-    public T deserialize(byte[] input) throws Exception;
+    public T deserialize(byte[] body) throws Exception;
 }

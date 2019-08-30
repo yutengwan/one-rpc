@@ -10,6 +10,7 @@ package com.onerpc.core.serialize;
  */
 public enum ProtocolEnum {
     KRYO("KRYO", "kryo serialize"),
+    FST("FST", "fast-serialization"),
     JSON("JSON", "json serialize");
 
     private String code;

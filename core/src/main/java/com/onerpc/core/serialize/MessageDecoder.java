@@ -1,6 +1,7 @@
 package com.onerpc.core.serialize;
 
 import com.onerpc.core.handler.RpcSendHandler;
+import com.onerpc.core.serialize.fst.FstSerializer;
 import com.onerpc.core.serialize.json.JsonSerializer;
 import com.onerpc.core.serialize.kryo.KryoSerializer;
 import com.onerpc.core.util.LoggerHelper;
@@ -10,7 +11,9 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version $Id: MessageDecoder.java
@@ -19,18 +22,20 @@ public class MessageDecoder<T> extends ByteToMessageDecoder {
 
     private static final Logger logger = LoggerFactory.getLogger(RpcSendHandler.class);
 
-    private final Class<T> genericClass;
-    private Serializer serializer;
+    private final Class<T>                serializeClass;
+    private final Serializer              serializer;
+    private final Map<String, Serializer> serializerMap = new HashMap<>();
 
     public MessageDecoder(Class<T> tClass, ProtocolEnum protocolEnum) {
-        genericClass = tClass;
-        switch (protocolEnum) {
-            case KRYO:
-                serializer = new KryoSerializer(genericClass);
-                break;
-            case JSON:
-                serializer = new JsonSerializer(genericClass);
-            default:
+        serializeClass = tClass;
+        serializerMap.put(ProtocolEnum.FST.getCode(), new FstSerializer(serializeClass));
+        serializerMap.put(ProtocolEnum.KRYO.getCode(), new KryoSerializer(serializeClass));
+        serializerMap.put(ProtocolEnum.JSON.getCode(), new JsonSerializer(serializeClass));
+
+        if (serializerMap.containsKey(protocolEnum.getCode())) {
+            serializer = serializerMap.get(protocolEnum.getCode());
+        } else {
+            serializer = new JsonSerializer(serializeClass);
         }
     }
 

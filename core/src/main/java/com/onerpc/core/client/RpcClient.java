@@ -79,6 +79,7 @@ public class RpcClient {
             }).start();
         }
 
+        // wait thread
         countDownLatch.await();
         rpcClient.stop();
     }

@@ -28,6 +28,7 @@ public class RpcReceiveHandler extends ChannelHandlerAdapter {
         RpcRequest request = (RpcRequest) msg;
         RpcResponse rpcResponse = new RpcResponse();
         rpcResponse.setRequestId(request.getMessageId());
+        rpcResponse.setProtocol(request.getProtocol());
         try {
             Object result = doHandler(request);
             rpcResponse.setResult(result);

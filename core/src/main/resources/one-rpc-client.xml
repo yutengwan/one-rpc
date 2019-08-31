@@ -8,5 +8,5 @@
        http://www.onerpc.com/onerpc
        http://www.onerpc.com/schema/onerpc.xsd">
 
-    <onerpc:reference interface="com.onerpc.facade.api.HelloService" id="rpcReference" serviceName="helloService" protocol="xxx"/>
+    <onerpc:reference interface="com.onerpc.facade.api.HelloService" id="rpcReference" serviceName="helloService" protocol="fst"/>
 </beans>

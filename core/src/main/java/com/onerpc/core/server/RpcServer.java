@@ -4,7 +4,6 @@ package com.onerpc.core.server;
 import com.onerpc.core.handler.RpcReceiveHandler;
 import com.onerpc.core.serialize.MessageDecoder;
 import com.onerpc.core.serialize.MessageEncoder;
-import com.onerpc.core.serialize.ProtocolEnum;
 import com.onerpc.facade.model.RpcRequest;
 import com.onerpc.facade.model.RpcResponse;
 import io.netty.bootstrap.ServerBootstrap;
@@ -41,10 +40,8 @@ public class RpcServer {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             // add的顺序决定了，handler处理的顺序
                             // 顺序不要弄混了
-                            ch.pipeline().addLast(new MessageDecoder(
-                                    RpcRequest.class, ProtocolEnum.FST));
-                            ch.pipeline().addLast(new MessageEncoder(
-                                    RpcResponse.class, ProtocolEnum.FST));
+                            ch.pipeline().addLast(new MessageDecoder(RpcRequest.class));
+                            ch.pipeline().addLast(new MessageEncoder(RpcResponse.class));
                             ch.pipeline().addLast(new RpcReceiveHandler());
                         }
                     });

@@ -35,6 +35,11 @@ public class RpcRequest implements Serializable {
      */
     private Object[] parametersVal;
 
+    /**
+     * 协议类型
+     */
+    private String protocol;
+
     public String getMessageId() {
         return messageId;
     }
@@ -73,5 +78,13 @@ public class RpcRequest implements Serializable {
 
     public void setParametersVal(Object[] parametersVal) {
         this.parametersVal = parametersVal;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
     }
 }

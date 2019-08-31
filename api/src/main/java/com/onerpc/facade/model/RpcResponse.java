@@ -20,9 +20,9 @@ public class RpcResponse implements Serializable {
     private String error;
 
     /**
-     * client请求超时时间
+     * 协议类型
      */
-    private int clientTimeout;
+    private String protocol;
 
     public String getRequestId() {
         return requestId;
@@ -48,11 +48,11 @@ public class RpcResponse implements Serializable {
         this.error = error;
     }
 
-    public int getClientTimeout() {
-        return clientTimeout;
+    public String getProtocol() {
+        return protocol;
     }
 
-    public void setClientTimeout(int clientTimeout) {
-        this.clientTimeout = clientTimeout;
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
     }
 }

@@ -4,7 +4,6 @@ import com.onerpc.core.core.RpcServerLoader;
 import com.onerpc.core.handler.RpcSendHandler;
 import com.onerpc.core.serialize.MessageDecoder;
 import com.onerpc.core.serialize.MessageEncoder;
-import com.onerpc.core.serialize.ProtocolEnum;
 import com.onerpc.core.util.LoggerHelper;
 import com.onerpc.facade.api.HelloService;
 import com.onerpc.facade.model.RpcRequest;
@@ -44,8 +43,8 @@ public class RpcClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new MessageDecoder(RpcResponse.class, ProtocolEnum.FST));
-                        ch.pipeline().addLast(new MessageEncoder(RpcRequest.class, ProtocolEnum.FST));
+                        ch.pipeline().addLast(new MessageDecoder(RpcResponse.class));
+                        ch.pipeline().addLast(new MessageEncoder(RpcRequest.class));
                         ch.pipeline().addLast(sendHandler);
                     }
                 }).option(ChannelOption.SO_KEEPALIVE, true);

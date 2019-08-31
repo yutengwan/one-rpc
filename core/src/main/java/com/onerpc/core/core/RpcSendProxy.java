@@ -32,10 +32,16 @@ public class RpcSendProxy extends AbstractInvocationHandler {
      */
     private String timeout;
 
-    public RpcSendProxy(Class<?> clazz, String serviceName, String timeout) {
+    /**
+     * 序列号协议
+     */
+    private String protocol;
+
+    public RpcSendProxy(Class<?> clazz, String serviceName, String timeout, String protocol) {
         this.clazz = clazz;
         this.serviceName = serviceName;
         this.timeout = timeout;
+        this.protocol = protocol;
     }
 
     @Override
@@ -46,6 +52,7 @@ public class RpcSendProxy extends AbstractInvocationHandler {
         request.setMethodName(method.getName());
         request.setTypeParameters(method.getParameterTypes());
         request.setParametersVal(objects);
+        request.setProtocol(protocol);
 
         RpcSendHandler sendHandler = RpcServerLoader.getInstance().getNettyServerHandler();
         RpcCallback rpcCallback = sendHandler.sendMessage(request, timeout);

@@ -2,8 +2,11 @@ package com.onerpc.core.core;
 
 import com.onerpc.core.exception.RpcInvokeException;
 import com.onerpc.core.exception.RpcTimeoutException;
+import com.onerpc.core.util.LoggerHelper;
 import com.onerpc.facade.model.RpcRequest;
 import com.onerpc.facade.model.RpcResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -15,6 +18,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * 回调，当请求发出去之后，接收到返回数据时，回调方法
  */
 public class RpcCallback {
+    private static final Logger logger = LoggerFactory.getLogger(RpcCallback.class);
+
     private RpcRequest  request;
     private RpcResponse response;
     private Lock        lock      = new ReentrantLock();
@@ -48,7 +53,7 @@ public class RpcCallback {
             try {
                 ret = condition.await(timeout, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LoggerHelper.error(logger, "await interruption exception", e);
             }
 
             if (!ret) {

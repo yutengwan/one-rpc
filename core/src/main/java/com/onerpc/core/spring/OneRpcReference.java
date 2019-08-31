@@ -40,7 +40,7 @@ public class OneRpcReference implements FactoryBean, InitializingBean {
     @Override
     public Object getObject() throws Exception {
         // 代理调用，调用远程发布的服务
-        return Reflection.newProxy(getObjectType(), new RpcSendProxy(getObjectType(), serviceName, timeout));
+        return Reflection.newProxy(getObjectType(), new RpcSendProxy(getObjectType(), serviceName, timeout, protocol));
     }
 
     @Override

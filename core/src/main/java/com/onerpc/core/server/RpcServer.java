@@ -35,16 +35,18 @@ public class RpcServer {
             serverBootstrap.group(boosGroup, workGroup)
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 1024)
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            // add的顺序决定了，handler处理的顺序
-                            // 顺序不要弄混了
-                            ch.pipeline().addLast(new MessageDecoder(RpcRequest.class));
-                            ch.pipeline().addLast(new MessageEncoder(RpcResponse.class));
-                            ch.pipeline().addLast(new RpcReceiveHandler());
-                        }
-                    });
+                    .childOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
+
+            serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                protected void initChannel(SocketChannel ch) throws Exception {
+                    // add的顺序决定了，handler处理的顺序
+                    // 顺序不要弄混了
+                    ch.pipeline().addLast(new MessageDecoder(RpcRequest.class));
+                    ch.pipeline().addLast(new MessageEncoder(RpcResponse.class));
+                    ch.pipeline().addLast(new RpcReceiveHandler());
+                }
+            });
 
             // 绑定端口，同步等待成功
             ChannelFuture cf = serverBootstrap.bind(port).sync();

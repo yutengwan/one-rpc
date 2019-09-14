@@ -40,14 +40,18 @@ public class RpcClient {
         RpcSendHandler sendHandler = new RpcSendHandler();
 
         bootstrap.group(worker).channel(NioSocketChannel.class)
-                .handler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new MessageDecoder(RpcResponse.class));
-                        ch.pipeline().addLast(new MessageEncoder(RpcRequest.class));
-                        ch.pipeline().addLast(sendHandler);
-                    }
-                }).option(ChannelOption.SO_KEEPALIVE, true);
+                .option(ChannelOption.SO_KEEPALIVE, true)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
+                .channel(NioSocketChannel.class);
+        
+        bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+            @Override
+            protected void initChannel(SocketChannel ch) throws Exception {
+                ch.pipeline().addLast(new MessageDecoder(RpcResponse.class));
+                ch.pipeline().addLast(new MessageEncoder(RpcRequest.class));
+                ch.pipeline().addLast(sendHandler);
+            }
+        });
 
         bootstrap.connect(address, port).sync();
         // 注册 client server handler

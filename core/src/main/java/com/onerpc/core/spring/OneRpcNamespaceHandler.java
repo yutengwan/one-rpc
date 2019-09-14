@@ -3,7 +3,7 @@ package com.onerpc.core.spring;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
- *
+ * bean parse register
  * @version $Id: OneRpcNamespaceHandler.java
  */
 public class OneRpcNamespaceHandler extends NamespaceHandlerSupport {
